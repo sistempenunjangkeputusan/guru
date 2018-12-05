@@ -98,7 +98,7 @@
                     <div class="form-group">
                       <label class="col-lg-2 form-control-label" for="text-input">Nomor Telepon</label>
                       <div class="col-lg-3">
-                        <input type="text" id="text-input" name="no_telp" class="form-control" placeholder="Nomor Telepon">
+                        <input type="text" id="text-input" name="no_telp" class="form-control" placeholder="Nomor Telepon" maxlength="13" required>
                       </div>
                     </div>
 

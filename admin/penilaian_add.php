@@ -35,9 +35,10 @@
                 <div class="row col-lg-12">
                   <form action="" method="POST" enctype="multipart/form-data" class="form-horizontal">
                     <div class="form-group">
-                      <label class="col-lg-3 form-control-label" for="text-input">NUPTK</label>
+                      <label class="col-lg-3 form-control-label" for="text-input">NAMA GURU</label>
                       <div class="col-lg-9">
-                        <select input type="text" name="guru" class="form-control">
+                        <select name="nuptk" class="form-control">
+                          <option value="">--- Pilih Guru ---</option>
                           <?php
                             include 'koneksi.php';
 
@@ -52,16 +53,16 @@
                     <div class="form-group">
                       <label class="col-lg-3 form-control-label" for="text-input">KRITERIA</label>
                       <div class="col-lg-9">
-                        <select input type="text" name="kriteria" class="form-control">
+                        <select class="form-control" name="kd_kriteria" id="kd_kriteria">
+                          <option value="">--- Pilih Kriteria ---</option>
                           <?php
                             include 'koneksi.php';
-                        
-                            $sel_krit = "SELECT * FROM kriteria";
-                            $q = mysqli_query($koneksi, $sel_krit);
-                            while($data_krit = mysqli_fetch_array($q)){
-                          ?>
 
-                          <option value="<?php echo $data_krit["kd_kriteria"] ?>"><?php echo $data_krit["nm_kriteria"] ?></option>
+                            $pilih_kriteria="SELECT * FROM kriteria";
+                            $q=mysqli_query($koneksi, $pilih_kriteria);
+                            while($data_kriteria=mysqli_fetch_array($q)){
+                          ?>
+                          <option value="<?php echo $data_kriteria["kd_kriteria"] ?>"><?php echo $data_kriteria["nm_kriteria"] ?></option>
 
                           <?php
                             }
@@ -71,26 +72,19 @@
                     </div>
 
                     <div class="form-group">
-                      <label class="col-lg-3 form-control-label" for="text-input">NAMA SUB KRITERIA</label>
+                      <label class="col-lg-3 form-control-label" for="text-input">SUBKRITERIA</label>
                       <div class="col-lg-9">
-                        <select input type="text" id="subkrit" name="subkrit" class="form-control">
-                          <option value="">Sub Kriteria</option>
-                          <!-- Data Sub Kriteria -->
+                        <select class="form-control" name="kd_subkriteria" id="kd_subkriteria">
+                          <option value="">--- Pilih SubKriteria ---</option>
+                          <!-- hasil data dari subkrit.php akan ditampilkan disini -->
                         </select>
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <label class="col-lg-3 form-control-label" for="text-input">RANGE AWAL</label>
+                      <label class="col-lg-3 form-control-label" for="text-input">NILAI</label>
                       <div class="col-lg-9">
-                        <input type="text" id="text-input" name="rn_awal" class="form-control" placeholder="RANGE AWAL" required>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-lg-3 form-control-label" for="text-input">RANGE AKHIR</label>
-                      <div class="col-lg-9">
-                        <input type="text" id="text-input" name="rn_akhir" class="form-control" placeholder="RANGE AKHIR" required>
+                        <input type="text" class="form-control" id="nilai" name="nilai" required>
                       </div>
                     </div>
 
@@ -115,27 +109,27 @@
     ?>
 
     <script>
-      $("#kriteria").change(function(){
-        // variabel dari nilai combo box Fakultas
-        var kd_kriteria = $("#kriteria").val();
-          // mengirim dan mengambil data
-          $.ajax({
-            type: "POST",
-            dataType: "html",
-            url: "subkrit.php",
-            data: "krit="+kd_kriteria,
-            success: function(msg){
-              // jika tidak ada data
-              if(msg == ''){
-                alert('Tidak ada data');
-              }
+      $("#kd_kriteria").change(function(){
+        // variabel dari nilai combo box Kriteria
+        var kd_kriteria = $("#kd_kriteria").val();
+        
+        // mengirim dan mengambil data
+        $.ajax({
+          type: "POST",
+          dataType: "html",
+          url: "penilaian_cek.php",
+          data: "crt="+kd_kriteria,
+          success: function(msg){
+            // jika tidak ada data
+            if(msg == ''){
+              alert('Tidak ada data Subkriteria');
+            }else{
               // jika dapat mengambil data,, tampilkan di combo box subkriteria
-              else{
-                $("#subkrit").html(msg);
-              }
+              $("#kd_subkriteria").html(msg);
             }
-          });
+          }
         });
+      });
     </script>
   </body>
 </html>
@@ -145,26 +139,19 @@
 
   if(isset($_POST['submit'])){
 
+    $kd_nilai       = $_POST['kd_nilai'];
+    $nuptk          = $_POST['nuptk'];
+    $kd_kriteria    = $_POST['kd_kriteria'];
     $kd_subkriteria = $_POST['kd_subkriteria'];
-    $kriteria       = $_POST['kriteria'];
-    $nm_subkriteria = $_POST['nm_subkriteria'];
-    $rn_awal		    = $_POST['rn_awal'];
-    $rn_akhir		    = $_POST['rn_akhir'];
+    $nilai		      = $_POST['nilai'];
 
-    $cek = mysqli_num_rows(mysqli_query($koneksi,"SELECT * FROM subkriteria
-                                                  WHERE nm_subkriteria = '$nm_subkriteria'"));
+    $save = mysqli_query($koneksi,"INSERT INTO nilai
+                                   VALUES('','$nuptk','$kd_kriteria','$kd_subkriteria','$nilai')");
 
-    if($cek > 0){
-      echo "<script>alert('Data Yang Anda Masukkan Sudah Ada!');window.location='subkriteria.php';</script>";
+    if ($save){
+      echo "<script>alert('Data BERHASIL di Simpan!');window.location='penilaian.php';</script>";
     }else{
-      $save = mysqli_query($koneksi,"INSERT INTO subkriteria
-                                     VALUES('$kd_subkriteria','$kriteria','$nm_subkriteria','$rn_awal','$rn_akhir')");
-
-        if ($save){
-          echo "<script>alert('Data BERHASIL di Simpan!');window.location='subkriteria.php';</script>";
-        }else{
-          echo "<script>alert('Data GAGAL di Simpan!');window.location='subkriteria.php';</script>";
-        }
+      echo "<script>alert('Data GAGAL di Simpan!');window.location='penilaian.php';</script>";
     }
   }
 ?>

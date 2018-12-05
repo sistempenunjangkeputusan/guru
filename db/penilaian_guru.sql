@@ -2,8 +2,8 @@
 -- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 04, 2018 at 08:13 AM
+-- Host: localhost
+-- Generation Time: Dec 05, 2018 at 03:07 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -66,8 +66,9 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`nuptk`, `nm_guru`, `jenkel`, `alamat`, `tmpt_lahir`, `tgl_lahir`, `pendidikan`, `no_telp`) VALUES
-('1111111', 'aaaaa', 'Pria', 'ggggggg', 'ssssssss', '0000-00-00', 'SLTA', '23141341'),
-('87823613153242523423', 'Anita Saragih', 'Wanita', 'Jakarta Selatan', 'Pematang Siantar', '1989-06-22', 'S1', '08881787');
+('87823613153242523423', 'Anita Saragih', 'Wanita', 'Jakarta Selatan', 'Pematang Siantar', '1989-06-22', 'S1', '08881787'),
+('97857565746575748686', 'Diky Putra', 'Pria', 'Jakarta', 'Tangerang', '1989-12-01', 'S1', '0896587856779'),
+('97863926892538732859', 'Anjas', 'Pria', 'Jakarta', 'Jakarta', '1991-01-01', 'S1', '0878675646367');
 
 -- --------------------------------------------------------
 
@@ -86,8 +87,28 @@ CREATE TABLE `kriteria` (
 --
 
 INSERT INTO `kriteria` (`kd_kriteria`, `nm_kriteria`, `bobot`) VALUES
-('2', 'jujur', 2),
 ('KT-01', 'Pengajaran', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nilai`
+--
+
+CREATE TABLE `nilai` (
+  `kd_nilai` int(11) NOT NULL,
+  `nuptk` varchar(20) NOT NULL,
+  `kd_kriteria` varchar(20) NOT NULL,
+  `kd_subkriteria` varchar(20) NOT NULL,
+  `nilai` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nilai`
+--
+
+INSERT INTO `nilai` (`kd_nilai`, `nuptk`, `kd_kriteria`, `kd_subkriteria`, `nilai`) VALUES
+(3, '87823613153242523423', 'KT-01', 'subk-02', 5);
 
 -- --------------------------------------------------------
 
@@ -108,10 +129,9 @@ CREATE TABLE `subkriteria` (
 --
 
 INSERT INTO `subkriteria` (`kd_subkriteria`, `kd_kriteria`, `nm_subkriteria`, `rn_awal`, `rn_akhir`) VALUES
-('1', '1', 'Tinggi', 50, 90),
-('subk-01', 'KT-01', 'baik', 1, 5),
-('subk-02', 'KT-01', 'ramah', 1, 6),
-('subk-03', 'KT-01', 'target', 1, 5);
+('subk-01', 'KT-01', 'Baik', 1, 5),
+('subk-02', 'KT-01', 'Ramah', 1, 6),
+('subk-03', 'KT-01', 'Target', 1, 5);
 
 --
 -- Indexes for dumped tables
@@ -136,6 +156,12 @@ ALTER TABLE `kriteria`
   ADD PRIMARY KEY (`kd_kriteria`);
 
 --
+-- Indexes for table `nilai`
+--
+ALTER TABLE `nilai`
+  ADD PRIMARY KEY (`kd_nilai`);
+
+--
 -- Indexes for table `subkriteria`
 --
 ALTER TABLE `subkriteria`
@@ -150,6 +176,12 @@ ALTER TABLE `subkriteria`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `nilai`
+--
+ALTER TABLE `nilai`
+  MODIFY `kd_nilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

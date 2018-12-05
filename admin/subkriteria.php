@@ -48,8 +48,9 @@
                       include 'koneksi.php';
                       $no = 1;
 
-                      $data = mysqli_query($koneksi,'SELECT kriteria.nm_kriteria, subkriteria.nm_subkriteria,
-                                                            subkriteria.rn_awal, subkriteria.rn_akhir
+                      $data = mysqli_query($koneksi,'SELECT kriteria.nm_kriteria, subkriteria.kd_subkriteria,
+                                                            subkriteria.nm_subkriteria, subkriteria.rn_awal,
+                                                            subkriteria.rn_akhir
                                                      FROM kriteria JOIN subkriteria
                                                      ON kriteria.kd_kriteria = subkriteria.kd_kriteria');
                       while ($tampil=mysqli_fetch_array($data)){

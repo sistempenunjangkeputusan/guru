@@ -39,32 +39,38 @@
                       <th>NAMA GURU</th>
                       <th>KRITERIA</th>
                       <th>SUB KRITERIA</th>
+                      <th>NILAI</th>
                       <th>PILIHAN</th>
                     </tr>
                   </thead>
                   <tbody>
+
+                    <?php
+                      include 'koneksi.php';
+                      $no = 1;
+
+                      $data = mysqli_query($koneksi,'SELECT nilai.kd_nilai, guru.nm_guru, kriteria.nm_kriteria,
+                                                            subkriteria.nm_subkriteria, nilai.nilai
+                                                     FROM nilai
+                                                     JOIN guru ON nilai.nuptk = guru.nuptk
+                                                     JOIN kriteria ON nilai.kd_kriteria = kriteria.kd_kriteria
+                                                     JOIN subkriteria ON nilai.kd_subkriteria = subkriteria.kd_subkriteria');
+                      while ($tampil=mysqli_fetch_array($data)){
+                    ?>
+
                     <tr class="odd gradeX">
-                      <td align="center">1</td>
-                      <td>Budi</td>
-                      <td>Pengajaran</td>
-                      <td>Baik</td>
+                      <td align="center"><?php echo $no++; ?>.</td>
+                      <td><?php echo $tampil['nm_guru']; ?></td>
+                      <td><?php echo $tampil['nm_kriteria']; ?></td>
+                      <td><?php echo $tampil['nm_subkriteria']; ?></td>
+                      <td align="center"><?php echo $tampil['nilai']; ?></td>
                       <td align="center">
-                        <a href="#" class="btn btn-primary">Detail</a>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Hapus</a>
+                        <a onclick="if(confirm('Yakin Ingin Menghapus Data Ini ???')){ location.href='penilaian_hapus.php?id=<?php echo $tampil['kd_nilai']; ?>' }" class="btn btn-danger">Hapus</a>
                       </td>
                     </tr>
-                    <tr class="odd gradeX">
-                      <td align="center">2</td>
-                      <td>Handoko</td>
-                      <td>Pengajaran</td>
-                      <td>Baik</td>
-                      <td align="center">
-                        <a href="#" class="btn btn-primary">Detail</a>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Hapus</a>
-                      </td>
-                    </tr>
+                    <?php
+                      }
+                    ?>
                   </tbody>
                 </table>
               </div>

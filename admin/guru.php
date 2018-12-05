@@ -28,7 +28,7 @@
           <div class="col-lg-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-              <a href="guru_add.php"><i class="fa fa-plus fa-fw"></i> Tambah Guru</a>
+                <a href="guru_add.php"><i class="fa fa-plus fa-fw"></i> Tambah Guru</a>
               </div>
 
               <div class="panel-body">

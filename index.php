@@ -33,9 +33,6 @@
     <div class="container">
       <div class="row">
         <div class="col-md-4 col-md-offset-4">
-          <div class="image">
-            <img src="admin/assets/images/smaht1.jpg" class="img-responsive center-block" alt="SMA Hang Tuah 1" width="200" height="200">
-          </div>
           <div class="login-panel panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title" align="center">SILAKAN LOGIN</h3>
